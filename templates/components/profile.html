@@ -1,0 +1,74 @@
+<div class="column is-4 messages hero is-fullheight" id="message-feed">
+  {% if view != 'resource' %}
+  <div class="field">
+    <input class="input" id="searchInput" type="text"
+           placeholder="{{ '교수 이름 검색...' if view == 'professor' else '강의 제목 검색...' }}"
+           onkeyup="filterList(this, 'inbox-list')">
+  </div>
+  {% endif %}
+
+  <div id="inbox-list">
+    {% if view == 'professor' %}
+      {% for p in professors %}
+        <div class="card mb-2">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="https://ugc.production.linktr.ee/T31DeqSYQHSVYaU1fl4V_0rikMFEkNWn3bAee">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-6 mb-0">
+                  <a href="/?view=professor&professor_id={{ p.id }}">{{ p.name }}</a>
+                </p>
+                <p class="subtitle is-6">{{ p.department }}</p>
+                <p class="subtitle is-6">{{ p.email }}</p>
+                <p class="subtitle is-6">{{ p.phone }}</p>
+          
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    {% elif view == 'lecture' %}
+      {% for l in lectures %}
+        <div class="card mb-2">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="https://ugc.production.linktr.ee/T31DeqSYQHSVYaU1fl4V_0rikMFEkNWn3bAee">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-6 mb-0">
+                  <a href="/?view=lecture&lecture_id={{ l.id }}">{{ l.title }}</a>
+                </p>
+                <p class="subtitle is-7">{{ l.professor_name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      {% elif view == 'resource' %}
+      <!--{% for l in lectures %}-->
+        <div class="card mb-2">
+          <div class="card-content">
+              <div class="media-content">
+                <p class="title is-6 mb-0">
+                  <a href="#">Title</a>
+                </p>
+                <p class="subtitle is-7">content</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!--{% endfor %}-->
+
+    {% endif %}
+  </div>
+</div>

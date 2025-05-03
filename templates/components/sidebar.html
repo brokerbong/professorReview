@@ -1,0 +1,38 @@
+    <aside class="column is-2 aside hero is-fullheight">
+        <div>
+            <!--
+            <div class="compose has-text-centered">
+                <a class="button is-danger is-block is-bold">
+                    <span class="compose">hi</span>
+                </a>
+            </div>
+            -->
+            <div class="main">
+                <a href="/?view=professor" {% if view == 'professor' %}class="item is-active"{% endif %} class="item">
+                    <span class="icon">
+                        <i class="fa fa-inbox"></i>
+                    </span>
+                    <span class="name">교수평가
+                    </span>
+                </a>
+                <a href="/?view=lecture" {% if view == 'lecture' %}class="item is-active"{% endif %} class="item">
+                    <span class="icon">
+                        <i class="fa fa-star"></i>
+                    </span>
+                    <span class="name">강의평가</span>
+                </a>
+                <a href="/?view=resource" class="item">
+                    <span class="icon">
+                        <i class="fa fa-folder-o"></i>
+                    </span>
+                    <span class="name">자료실</span>
+                </a>
+                <a href="#" class="item">
+                    <span class="icon">
+                        <i class="fa fa-envelope-o"></i>
+                    </span>
+                    <span class="name">문의하기</span>
+                </a>
+            </div>
+        </div>
+    </aside>
