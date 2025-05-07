@@ -54,8 +54,6 @@ def submit_review(view, item_id):
     REVIEWS[view].setdefault(item_id, []).append(review)
     return redirect(f"/?view={view}&{'professor_id' if view == 'professor' else 'lecture_id'}={item_id}")
 
-
-
 if __name__ == '__main__':
     app.run(debug=True)
 

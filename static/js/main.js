@@ -10,7 +10,7 @@ function filterList(input, containerId) {
   
   function switchToLectureSearch(keyword) {
     sessionStorage.setItem("lecture_search_keyword", keyword);
-    window.location.href = "/?view=lecture";
+    window.location.href = "/?view=lectures";
   }
 
   function clickProfilePanel(key, id){

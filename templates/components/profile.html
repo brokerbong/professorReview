@@ -8,7 +8,7 @@
   {% endif %}
 
   <div id="inbox-list">
-    {% if view == 'professor' %}
+    {% if view == 'professors' %}
       {% for p in datas %}
         <div class="card mb-2 profile-card" data-id="{{ p.id }}" data-type="{{ view }}">
           <div class="card-content">
@@ -46,7 +46,7 @@
         </div>
       {% endfor %}
 
-    {% elif view == 'lecture' %}
+    {% elif view == 'lectures' %}
       {% for l in datas %}
         <div class="card mb-2 profile-card" data-id="{{ l.id }}" data-type="{{ view }}">
           <div class="card-content">

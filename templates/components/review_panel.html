@@ -1,12 +1,12 @@
 <!-- 오른쪽 리뷰 보기 + 작성 
 <div class="column is-6 message hero is-fullheight" id="message-pane">-->
     <div class="box message-preview">
-      {% if type == 'professor' %}
+      {% if type == 'professors' %}
         <h4 class="title is-4">{{ infoData.name }} 교수님 리뷰</h4>
         <p class="subtitle is-6">소속: {{ infoData.department }} / 평균 평점: ⭐{{ avg_rating or '없음' }}</p>
         <a class="button is-small is-info mt-2" href="">해당 교수 강의 보기</a>
       
-        {% elif type == 'lecture'%}
+        {% elif type == 'lectures'%}
         <h4 class="title is-4">강의: {{ infoData.title }}</h4>
         <p class="subtitle is-6">담당 교수: {{ infoData.professor_name }}</p>
         {% set prof = professors | selectattr('name', 'equalto', infoData.professor_name) | list | first %}
@@ -32,7 +32,7 @@
       {% endfor %}
 
       <!--평점 영역-->
-      {% if type == 'professor' or type == 'lecture' %}
+      {% if type == 'professors' or type == 'lectures' %}
       <hr>
       <form method="post" action="/review/{{ view }}/{{ infoData.id}}">
         <div class="field">
