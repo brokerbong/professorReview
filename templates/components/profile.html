@@ -9,23 +9,36 @@
 
   <div id="inbox-list">
     {% if view == 'professor' %}
-      {% for p in professors %}
-        <div class="card mb-2">
+      {% for p in datas %}
+        <div class="card mb-2 profile-card" data-id="{{ p.id }}" data-type="{{ view }}">
           <div class="card-content">
-            <div class="media">
+            <div class="media" onclick="clickProfilePanel('{{ view }}', '{{ p.id }}')" style="cursor: pointer;" >
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img src="https://ugc.production.linktr.ee/T31DeqSYQHSVYaU1fl4V_0rikMFEkNWn3bAee">
                 </figure>
               </div>
               <div class="media-content">
-                <p class="title is-6 mb-0">
-                  <a href="/?view=professor&professor_id={{ p.id }}">{{ p.name }}</a>
-                </p>
-                <p class="subtitle is-6">{{ p.department }}</p>
-                <p class="subtitle is-6">{{ p.email }}</p>
-                <p class="subtitle is-6">{{ p.phone }}</p>
-          
+                <div class="columns">
+                  <div class="column is-three-quarters">
+                    <div class="media-left">
+                      <p class="title is-6 mb-0">
+                        {{ p.name }}
+                      </p>
+                      
+                      <p class="subtitle is-6">
+                        {{ p.department }}
+                        {{ p.email }} 
+                        {{ p.phone }}
+                      </p>
+    
+                    </div>
+                  </div>
+                  <div class="column">별점</div>
+                </div>
+                <!--
+                
+                -->
               </div>
               
             </div>
@@ -34,10 +47,10 @@
       {% endfor %}
 
     {% elif view == 'lecture' %}
-      {% for l in lectures %}
-        <div class="card mb-2">
+      {% for l in datas %}
+        <div class="card mb-2 profile-card" data-id="{{ l.id }}" data-type="{{ view }}">
           <div class="card-content">
-            <div class="media">
+            <div class="media" onclick="clickProfilePanel('{{ view }}', '{{ l.id }}')" style="cursor: pointer;">
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img src="https://ugc.production.linktr.ee/T31DeqSYQHSVYaU1fl4V_0rikMFEkNWn3bAee">
@@ -45,7 +58,7 @@
               </div>
               <div class="media-content">
                 <p class="title is-6 mb-0">
-                  <a href="/?view=lecture&lecture_id={{ l.id }}">{{ l.title }}</a>
+                  {{ l.title }}
                 </p>
                 <p class="subtitle is-7">{{ l.professor_name }}</p>
               </div>
@@ -68,7 +81,8 @@
           </div>
         </div>
       <!--{% endfor %}-->
-
+      
     {% endif %}
+    {{datas}} , {{target}}
   </div>
 </div>
