@@ -7,14 +7,13 @@ function filterList(input, containerId) {
         items[i].style.display = text.includes(value) ? "" : "none";
     }
   }
-  
-  function switchToLectureSearch(keyword) {
-    sessionStorage.setItem("lecture_search_keyword", keyword);
-    window.location.href = "/?view=lectures";
-  }
 
   function clickProfilePanel(key, id){
     console.log("key: "+key,", id: ", id)
+
+    document.querySelectorAll('.profile-card').forEach(el => el.classList.remove('active'));
+    const selected = document.querySelector(`.profile-card[data-id="${id}"][data-type="${key}"]`);
+    if (selected) selected.classList.add('active');
 
     // 데이터 fetch 및 렌더링
     fetch(`/api/${key}/${id}`)
@@ -23,10 +22,6 @@ function filterList(input, containerId) {
       //console.log(data);
       document.getElementById("message-pane").innerHTML = data;
     });
-
-    document.querySelectorAll('.profile-card').forEach(el => el.classList.remove('active'));
-    const selected = document.querySelector(`.profile-card[data-id="${id}"][data-type="${key}"]`);
-    if (selected) selected.classList.add('active');
   }
 
   function submitReview(type, id) {

@@ -35,6 +35,16 @@ def getReviewProfessors(target):
     finally:
         put_conn(conn)
 
+def getReviewResource(target):
+    conn = get_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT to_jsonb(p.*) FROM Resource p WHERE id = %s;", (target,))
+            result = cur.fetchone()[0]
+            return result
+    finally:
+        put_conn(conn)
+
 def insert_review(view, item_id, data):
     conn = get_conn()
     view = view.rstrip('s')
