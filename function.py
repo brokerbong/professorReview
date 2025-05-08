@@ -35,3 +35,22 @@ def getReviewProfessors(target):
     finally:
         put_conn(conn)
 
+def insert_review(view, item_id, data):
+    conn = get_conn()
+    view = view.rstrip('s')
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO reviews (target_type, target_id, writer, password, rating, comment, created_at)
+                VALUES (%s, %s, %s, %s, %s, %s, now())
+            """, (
+                view,
+                item_id,
+                data["writer"],
+                data["password"],
+                int(data["rating"]),
+                data["comment"]
+            ))
+            conn.commit()
+    finally:
+        put_conn(conn)

@@ -4,14 +4,12 @@
       {% if type == 'professors' %}
         <h4 class="title is-4">{{ infoData.name }} 교수님 리뷰</h4>
         <p class="subtitle is-6">소속: {{ infoData.department }} / 평균 평점: ⭐{{ avg_rating or '없음' }}</p>
-        <a class="button is-small is-info mt-2" href="">해당 교수 강의 보기</a>
       
         {% elif type == 'lectures'%}
         <h4 class="title is-4">강의: {{ infoData.title }}</h4>
         <p class="subtitle is-6">담당 교수: {{ infoData.professor_name }}</p>
         {% set prof = professors | selectattr('name', 'equalto', infoData.professor_name) | list | first %}
         {% if prof %}
-        <a class="button is-small is-warning mt-2" href="">교수 리뷰 보기</a>
         {% endif %}
 
       {% else %}
@@ -34,31 +32,31 @@
       <!--평점 영역-->
       {% if type == 'professors' or type == 'lectures' %}
       <hr>
-      <form method="post" action="/review/{{ view }}/{{ infoData.id}}">
-        <div class="field">
-          <label class="label">작성자</label>
-          <input class="input" name="writer" required>
+      <div class="field">
+        <label class="label">작성자</label>
+        <input class="input" name="writer" required>
+      </div>
+      <div class="field">
+        <label class="label">비밀번호</label>
+        <input class="input" type="password" name="password" required>
+      </div>
+      <div class="field">
+        <label class="label">평점</label>
+        <div class="select">
+          <select name="rating">
+            {% for i in range(5, 0, -1) %}
+            <option value="{{ i }}">{{ i }}점</option>
+            {% endfor %}
+          </select>
         </div>
-        <div class="field">
-          <label class="label">비밀번호</label>
-          <input class="input" type="password" name="password" required>
-        </div>
-        <div class="field">
-          <label class="label">평점</label>
-          <div class="select">
-            <select name="rating">
-              {% for i in range(5, 0, -1) %}
-              <option value="{{ i }}">{{ i }}점</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">내용</label>
-          <textarea class="textarea" name="comment" required></textarea>
-        </div>
-        <button class="button is-primary mt-2">리뷰 등록</button>
-      <!--</form>-->
+      </div>
+      <div class="field">
+        <label class="label">내용</label>
+        <textarea class="textarea" name="comment" required></textarea>
+      </div>
+      <button class="button is-primary mt-2" onclick="submitReview('{{ type }}', {{ infoData.id }})">
+        리뷰 등록
+      </button>
       {% endif %}
     </div>
   </div>

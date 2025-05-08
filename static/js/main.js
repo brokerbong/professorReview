@@ -28,6 +28,35 @@ function filterList(input, containerId) {
     const selected = document.querySelector(`.profile-card[data-id="${id}"][data-type="${key}"]`);
     if (selected) selected.classList.add('active');
   }
+
+  function submitReview(type, id) {
+    const container = document.getElementById("message-pane");
+    const inputs = container.querySelectorAll("input, textarea, select");
+  
+    const data = {};
+    inputs.forEach(input => {
+      if (input.name) data[input.name] = input.value;
+    });
+  
+    fetch(`/api/review/${type}/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("등록 실패");
+        return res.text();
+      })
+      .then(html => {
+        document.getElementById("message-pane").innerHTML = html;
+      })
+      .catch(err => {
+        alert("리뷰 등록에 실패했습니다.");
+        console.error(err);
+      });
+  }
   
   
   // document.addEventListener("DOMContentLoaded", function () {

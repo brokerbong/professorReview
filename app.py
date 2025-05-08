@@ -35,25 +35,6 @@ def index():
         datas=profileData
     )
 
-@app.route('/review/<string:view>/<int:item_id>', methods=['POST'])
-def submit_review(view, item_id):
-    writer = request.form['writer']
-    password = generate_password_hash(request.form['password'])
-    rating = int(request.form['rating'])
-    comment = request.form['comment']
-    created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
-
-    review = {
-        "writer": writer,
-        "password": password,
-        "rating": rating,
-        "comment": comment,
-        "created_at": created_at
-    }
-
-    REVIEWS[view].setdefault(item_id, []).append(review)
-    return redirect(f"/?view={view}&{'professor_id' if view == 'professor' else 'lecture_id'}={item_id}")
-
 if __name__ == '__main__':
     app.run(debug=True)
 

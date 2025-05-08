@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template
 from datetime import datetime
 
-from function import getReviewProfessors
+from function import getReviewProfessors, insert_review
 
 api = Blueprint('api', __name__)
 
@@ -33,3 +33,19 @@ def api_lecture(lecture_id):
 def api_resource(resource_id):
     print(f"lecture{resource_id}")
     return str(resource_id)
+
+# 리뷰 등록 API
+@api.route('/api/review/<string:view>/<int:item_id>', methods=['POST'])
+def submit_review(view, item_id):
+    data = request.get_json()
+    # DB에 INSERT 처리
+    insert_review(view, item_id, data)
+
+    # 리뷰 다시 불러오기
+    reviews, avg_score, infoData = getReviewProfessors(item_id)
+
+    return render_template("components/review_panel.html", 
+                            type="professors", 
+                            reviews=reviews, 
+                            avg_rating=avg_score, 
+                            infoData=infoData)
