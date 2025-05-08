@@ -13,9 +13,13 @@
         {% endif %}
 
       {% elif type == 'resource'%}
-        <h4 class="title is-4">강의: {{ infoData.title }}</h4>
-        <p class="subtitle is-6">담당 교수: {{ infoData.category }}</p>
-
+        <h4 class="title is-4">파일명: {{ infoData.title }}</h4>
+        <p class="subtitle is-6">카테고리: {{ infoData.category }}</p>
+        <div class="tags are-medium mb-2">
+          {% for tag in infoData.tags %}
+            <span class="tag is-info">{{ tag }}</span>
+          {% endfor %}
+        </div>
       {% else %}
         <p>좌측에서 항목을 선택하세요.</p>
       {% endif %}
@@ -23,7 +27,15 @@
       <hr>
       {% if type == 'resource' %}
         <div class="box">
-          {{ infoData.description }}
+          <p class="mb-3"><strong>설명:</strong><br>{{ infoData.description }}</p>
+        
+          <p class="is-size-7 has-text-grey mb-3">
+            업로드: {{ infoData.uploaded_by }} / {{ infoData.uploaded_at }}
+          </p>
+        
+          <a class="button is-link is-light" href="{{ infoData.file_path }}" target="_blank">
+            <i class="fas fa-download"></i>&nbsp; 파일 다운로드
+          </a>
         </div>
       {% endif %}
 

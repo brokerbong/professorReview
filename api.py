@@ -34,7 +34,7 @@ def api_resource(resource_id):
     print(f"resource: {resource_id}")
 
     data = getReviewResource(resource_id)
-    print(f"data: {data}")
+    #print(f"data: {data}")
     return render_template("components/review_panel.html", 
                             type="resource",
                             infoData=data)
