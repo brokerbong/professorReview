@@ -9,7 +9,7 @@ def callDatabase(selectView):
             query = f"SELECT jsonb_agg(p) FROM {selectView} p"
             cur.execute(query)
             result = cur.fetchone()[0]
-            print(result)
+            #print(result)
             return result
     finally:
         put_conn(conn)
