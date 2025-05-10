@@ -26,7 +26,7 @@ def test_db():
 @app.route('/')
 def index():
     #request.args.get('key', '기본값') view에 값이없으면 professor 자동 bind
-    view = request.args.get('view', 'professor')
+    view = request.args.get('view', 'professors')
     profileData = callDatabase(view)
     #print(f'data: {profileData}')
     return render_template(
