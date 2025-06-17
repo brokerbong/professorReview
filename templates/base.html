@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inbox - Free Bulma template</title>
+    <title>미래인재학부</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -17,8 +17,8 @@
 <nav class="navbar has-shadow">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item" href="../">
-                <img src="https://bulma.io/assets/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox">
+            <a class="navbar-item">
+                <img src="https://cse-hansung.github.io/capstone2021/sangsangbugi-coding.png" alt="">
             </a>
         </div>
     </div>
@@ -26,22 +26,10 @@
 <div class="columns">
         {% include 'components/sidebar.html' %}
         {% include 'components/profile.html' %}
-        {% include 'components/review_panel.html' %}
+        <div class="column is-6 message hero is-fullheight" id="message-pane">
+            {% include 'components/review_panel.html' %}
+        </div>
 </div>
 </body>
-<footer class="footer">
-    <div class="container">
-        <div class="content has-text-centered">
-            <p>
-                <strong>Bulma Templates</strong> by <a href="https://github.com/dansup">Daniel Supernault</a>. The source code is licensed
-                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
-            </p>
-            <p>
-                <a class="icon" href="https://github.com/BulmaTemplates/bulma-templates">
-                    <i class="fa fa-github"></i>
-                </a>
-            </p>
-        </div>
-    </div>
-</footer>
+
 </html>

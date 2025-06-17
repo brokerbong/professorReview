@@ -1,24 +1,44 @@
-<!-- 오른쪽 리뷰 보기 + 작성 -->
-<div class="column is-6 message hero is-fullheight" id="message-pane">
+<!-- 오른쪽 리뷰 보기 + 작성 
+<div class="column is-6 message hero is-fullheight" id="message-pane">-->
     <div class="box message-preview">
-      {% if view == 'professor' and professor %}
-        <h4 class="title is-4">{{ professor.name }} 교수님 리뷰</h4>
-        <p class="subtitle is-6">소속: {{ professor.department }} / 평균 평점: ⭐{{ avg_rating or '없음' }}</p>
-        <a class="button is-small is-info mt-2" href="/?view=lecture&search={{ professor.name }}">해당 교수 강의 보기</a>
+      {% if type == 'professors' %}
+        <h4 class="title is-4">{{ infoData.name }} 교수님 리뷰</h4>
+        <p class="subtitle is-6">소속: {{ infoData.department }} / 평균 평점: ⭐{{ avg_rating or '없음' }}</p>
       
-        {% elif view == 'lecture' and lecture %}
-        <h4 class="title is-4">강의: {{ lecture.title }}</h4>
-        <p class="subtitle is-6">담당 교수: {{ lecture.professor_name }}</p>
-        {% set prof = professors | selectattr('name', 'equalto', lecture.professor_name) | list | first %}
+      {% elif type == 'lectures'%}
+        <h4 class="title is-4">강의: {{ infoData.title }}</h4>
+        <p class="subtitle is-6">담당 교수: {{ infoData.professor_name }}</p>
+        {% set prof = professors | selectattr('name', 'equalto', infoData.professor_name) | list | first %}
         {% if prof %}
-        <a class="button is-small is-warning mt-2" href="/?view=professor&professor_id={{ prof.id }}">교수 리뷰 보기</a>
         {% endif %}
 
+      {% elif type == 'resource'%}
+        <h4 class="title is-4">파일명: {{ infoData.title }}</h4>
+        <p class="subtitle is-6">카테고리: {{ infoData.category }}</p>
+        <div class="tags are-medium mb-2">
+          {% for tag in infoData.tags %}
+            <span class="tag is-info">{{ tag }}</span>
+          {% endfor %}
+        </div>
       {% else %}
         <p>좌측에서 항목을 선택하세요.</p>
       {% endif %}
 
       <hr>
+      {% if type == 'resource' %}
+        <div class="box">
+          <p class="mb-3"><strong>설명:</strong><br>{{ infoData.description }}</p>
+        
+          <p class="is-size-7 has-text-grey mb-3">
+            업로드: {{ infoData.uploaded_by }} / {{ infoData.uploaded_at }}
+          </p>
+        
+          <a class="button is-link is-light" href="{{ infoData.file_path }}" target="_blank">
+            <i class="fas fa-download"></i>&nbsp; 파일 다운로드
+          </a>
+        </div>
+      {% endif %}
+
       {% for r in reviews %}
         <article class="message is-info">
             <div class="message-header">
@@ -32,33 +52,33 @@
       {% endfor %}
 
       <!--평점 영역-->
-      {% if (view == 'professor' and professor) or (view == 'lecture' and lecture) %}
+      {% if type == 'professors' or type == 'lectures' %}
       <hr>
-      <form method="post" action="/review/{{ view }}/{{ professor.id if view == 'professor' else lecture.id }}">
-        <div class="field">
-          <label class="label">작성자</label>
-          <input class="input" name="writer" required>
+      <div class="field">
+        <label class="label">작성자</label>
+        <input class="input" name="writer" required>
+      </div>
+      <div class="field">
+        <label class="label">비밀번호</label>
+        <input class="input" type="password" name="password" required>
+      </div>
+      <div class="field">
+        <label class="label">평점</label>
+        <div class="select">
+          <select name="rating">
+            {% for i in range(5, 0, -1) %}
+            <option value="{{ i }}">{{ i }}점</option>
+            {% endfor %}
+          </select>
         </div>
-        <div class="field">
-          <label class="label">비밀번호</label>
-          <input class="input" type="password" name="password" required>
-        </div>
-        <div class="field">
-          <label class="label">평점</label>
-          <div class="select">
-            <select name="rating">
-              {% for i in range(5, 0, -1) %}
-              <option value="{{ i }}">{{ i }}점</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">내용</label>
-          <textarea class="textarea" name="comment" required></textarea>
-        </div>
-        <button class="button is-primary mt-2">리뷰 등록</button>
-      </form>
+      </div>
+      <div class="field">
+        <label class="label">내용</label>
+        <textarea class="textarea" name="comment" required></textarea>
+      </div>
+      <button class="button is-primary mt-2" onclick="submitReview('{{ type }}', {{ infoData.id }})">
+        리뷰 등록
+      </button>
       {% endif %}
     </div>
   </div>
