@@ -24,7 +24,7 @@ def getReviewProfessors(target):
             # print(f'getAll : {tmp}')
             result = [row[0] for row in tmp]
             total = sum(r['rating'] for r in result)
-            avg = total / len(result) if result else 0
+            avg = round(total / len(result),0) if result else 0
 
             cur.execute("SELECT to_jsonb(p.*) FROM professors p WHERE id = %s;", (target,))
             professor_info = cur.fetchone()
