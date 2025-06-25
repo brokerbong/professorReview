@@ -24,7 +24,7 @@ def getReviewProfessors(target):
             # print(f'getAll : {tmp}')
             result = [row[0] for row in tmp]
             total = sum(r['rating'] for r in result)
-            avg = round(total / len(result),0) if result else 0
+            avg = round(total / len(result),1) if result else 0
 
             cur.execute("SELECT to_jsonb(p.*) FROM professors p WHERE id = %s;", (target,))
             professor_info = cur.fetchone()
@@ -32,6 +32,26 @@ def getReviewProfessors(target):
 
             # print(f'getReview: {result}')
             return result, avg, professor
+    finally:
+        put_conn(conn)
+
+def getReviewlectures(target):
+    conn = get_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT to_jsonb(p.*) FROM reviews p WHERE target_type = 'lecture' AND target_id = %s;", (target,))
+            tmp = cur.fetchall()
+            # print(f'getAll : {tmp}')
+            result = [row[0] for row in tmp]
+            total = sum(r['rating'] for r in result)
+            avg = round(total / len(result),1) if result else 0
+
+            cur.execute("SELECT to_jsonb(p.*) FROM lectures p WHERE id = %s;", (target,))
+            lecture_info = cur.fetchone()
+            lecture = lecture_info[0] if lecture_info else {}
+
+            # print(f'getReview: {result}')
+            return result, avg, lecture
     finally:
         put_conn(conn)
 
