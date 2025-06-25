@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template
 from datetime import datetime
 
-from function import getReviewProfessors, insert_review, getReviewResource
+from function import getReviewProfessors, insert_review, getReviewResource, getReviewlectures
 
 api = Blueprint('api', __name__)
 
@@ -25,7 +25,15 @@ def api_professor(professor_id):
 @api.route('/api/lectures/<int:lecture_id>')
 def api_lecture(lecture_id):
     print(f"lecture: {lecture_id}")
-    return str(lecture_id)
+
+    reviews, avg_score, infoData = getReviewlectures(lecture_id)
+    # print(reviews)
+    #return str(lecture_id)
+    return render_template("components/review_panel.html", 
+                                type="lectures", 
+                                reviews=reviews, 
+                                avg_rating=avg_score, 
+                                infoData=infoData)
 
 
 ## 자료 상세 정보 API
