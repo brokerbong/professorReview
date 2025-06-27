@@ -12,6 +12,11 @@ def api_professor(professor_id):
     print(f"professor: {professor_id}")
 
     reviews, avg_score, infoData = getReviewProfessors(professor_id)
+    for tmp in reviews:
+        if isinstance(tmp['created_at'], str):
+            tmp['created_at'] = datetime.fromisoformat(tmp['created_at']).strftime('%y-%m-%d %H:%M:%S')
+        elif isinstance(tmp['created_at'], datetime):
+            tmp['created_at'] = tmp['created_at'].strftime('%y-%m-%d %H:%M:%S')
     # print(reviews)
 
     return render_template("components/review_panel.html", 
@@ -27,6 +32,11 @@ def api_lecture(lecture_id):
     print(f"lecture: {lecture_id}")
 
     reviews, avg_score, infoData = getReviewlectures(lecture_id)
+    for tmp in reviews:
+        if isinstance(tmp['created_at'], str):
+            tmp['created_at'] = datetime.fromisoformat(tmp['created_at']).strftime('%y-%m-%d %H:%M:%S')
+        elif isinstance(tmp['created_at'], datetime):
+            tmp['created_at'] = tmp['created_at'].strftime('%y-%m-%d %H:%M:%S')
     # print(reviews)
     #return str(lecture_id)
     return render_template("components/review_panel.html", 
