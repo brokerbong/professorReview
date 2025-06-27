@@ -40,7 +40,7 @@
       {% endif %}
 
       {% for r in reviews %}
-        <article class="message is-info">
+        <article class="message is-info" style="padding: 0px;">
             <div class="message-header">
                 <p>{{ r.writer }} ({{ '⭐' * r.rating }})</p>
                 <small>{{ r.created_at }}</small>
