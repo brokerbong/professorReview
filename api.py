@@ -2,8 +2,10 @@ from flask import Blueprint, jsonify, request, render_template
 from datetime import datetime
 
 from function import getReviewProfessors, insert_review, getReviewResource, getReviewlectures
+from sangchu_api import sangchu
 
 api = Blueprint('api', __name__)
+app.register_blueprint(sangchu)
 
 
 # 교수 상세 정보 API
