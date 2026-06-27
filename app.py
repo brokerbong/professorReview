@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-from api import api
-
 from database import get_conn, put_conn
 from function import callDatabase
 
+from api import api
+from sangchu_api import sangchu   # ← 여기
+
 app = Flask(__name__)
-app.register_blueprint(api)  # 등록
+app.register_blueprint(api)
+app.register_blueprint(sangchu)   # ← 여기
+
 
 @app.route("/test-db")
 def test_db():
