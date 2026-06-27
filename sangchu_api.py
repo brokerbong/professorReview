@@ -1,17 +1,7 @@
-import boto3
-import os
 from flask import Blueprint, request, jsonify
-from datetime import datetime
+from oracle_sangchu_db import get_sangchu_conn
 
 sangchu = Blueprint('sangchu', __name__)
-
-s3 = boto3.client(
-    's3',
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-    region_name=os.getenv('AWS_REGION', 'ap-northeast-2')
-)
-BUCKET = os.getenv('AWS_S3_BUCKET')
 
 @sangchu.route('/upload-image', methods=['POST'])
 def upload_image():
@@ -19,14 +9,16 @@ def upload_image():
     if not image_data:
         return jsonify({'error': 'no image'}), 400
 
-    filename = f"sangchu/{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.jpg"
-    s3.put_object(Bucket=BUCKET, Key=filename, Body=image_data, ContentType='image/jpeg')
-    image_url = f"https://{BUCKET}.s3.amazonaws.com/{filename}"
+    with get_sangchu_conn() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO sangchu_images (image_data) VALUES (:1)",
+                (image_data,)
+            )
+            conn.commit()
 
-    print(f"[sangchu] 이미지 저장: {image_url}")
-    # TODO: DB 저장 (테이블 준비 후)
-
-    return jsonify({'url': image_url}), 200
+    print(f"[sangchu] 이미지 저장 완료: {len(image_data)} bytes")
+    return jsonify({'status': 'ok'}), 200
 
 
 @sangchu.route('/upload-sensor', methods=['POST'])
@@ -35,8 +27,18 @@ def upload_sensor():
     if not data:
         return jsonify({'error': 'no data'}), 400
 
-    print(f"[sangchu] 센서: soil={data.get('soil_raw')}({data.get('soil_percent')}%), "
-          f"light={data.get('light_raw')}({data.get('light_percent')}%)")
-    # TODO: DB 저장 (테이블 준비 후)
+    soil_raw      = data.get('soil_raw')
+    soil_percent  = data.get('soil_percent')
+    light_raw     = data.get('light_raw')
+    light_percent = data.get('light_percent')
 
+    with get_sangchu_conn() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO sangchu_sensors (soil_raw, soil_percent, light_raw, light_percent) VALUES (:1, :2, :3, :4)",
+                (soil_raw, soil_percent, light_raw, light_percent)
+            )
+            conn.commit()
+
+    print(f"[sangchu] 센서 저장: soil={soil_raw}({soil_percent}%), light={light_raw}({light_percent}%)")
     return jsonify({'status': 'ok'}), 200
